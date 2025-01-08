@@ -3,6 +3,18 @@ let cartItems = document.querySelector("#js-cart-quantity");
 
 let productsHTML = "";
 
+let timeoutReset;
+
+const messageAddedToCart = (feedbackElement) => {
+  if (timeoutReset) clearTimeout(timeoutReset);
+
+  feedbackElement.style.opacity = 1;
+
+  timeoutReset = setTimeout(() => {
+    feedbackElement.style.opacity = 0;
+  }, 2000);
+};
+
 products.forEach((product) => {
   productsHTML += `<div class="product-container">
         <div class="product-image-container">
@@ -67,6 +79,9 @@ addToCartButton.forEach((button) => {
     const selectedItem = button.parentElement.querySelector("select");
     const quantitySelected = Number(selectedItem.value);
     selectedItem.classList.add(`js-selected-${productId}`);
+
+    const addedToCart = button.parentElement.querySelector(".added-to-cart");
+    messageAddedToCart(addedToCart);
 
     let inCart;
 
