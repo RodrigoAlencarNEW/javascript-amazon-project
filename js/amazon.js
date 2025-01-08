@@ -62,29 +62,24 @@ let addToCartButton = document.querySelectorAll(".add-to-cart-button");
 
 addToCartButton.forEach((button) => {
   button.addEventListener("click", () => {
-    const productId = button.dataset.productId;
+    const { productId } = button.dataset;
 
     const selectedItem = button.parentElement.querySelector("select");
+    const quantitySelected = Number(selectedItem.value);
     selectedItem.classList.add(`js-selected-${productId}`);
 
     let inCart;
 
     cart.forEach((item) => {
-      if (productId === item.id) {
-        inCart = item;
-      }
+      if (productId === item.productId) inCart = item;
     });
 
-    if (inCart) inCart.quantity += Number(selectedItem.value);
+    if (inCart) inCart.quantitySelected += quantitySelected;
 
     if (!inCart) {
-      cart.push({
-        id: productId,
-        quantity: Number(selectedItem.value),
-      });
+      cart.push({ productId, quantitySelected });
     }
 
     cartItems.innerHTML = cart.length;
-    console.log(cart);
   });
 });
