@@ -4,15 +4,20 @@ let cartItems = document.querySelector("#js-cart-quantity");
 let productsHTML = "";
 
 let timeoutReset;
+let itemId;
 
 const messageAddedToCart = (feedbackElement) => {
-  if (timeoutReset) clearTimeout(timeoutReset);
+  if (timeoutReset && itemId === feedbackElement.id) {
+    clearTimeout(timeoutReset);
+  }
 
   feedbackElement.style.opacity = 1;
 
   timeoutReset = setTimeout(() => {
     feedbackElement.style.opacity = 0;
   }, 2000);
+
+  itemId = feedbackElement.id;
 };
 
 products.forEach((product) => {
@@ -55,7 +60,7 @@ products.forEach((product) => {
 
         <div class="product-spacer"></div>
 
-        <div class="added-to-cart">
+        <div class="added-to-cart" id="${product.id}">
           <img src="images/icons/checkmark.png">
           Added
         </div>
@@ -81,6 +86,7 @@ addToCartButton.forEach((button) => {
     selectedItem.classList.add(`js-selected-${productId}`);
 
     const addedToCart = button.parentElement.querySelector(".added-to-cart");
+
     messageAddedToCart(addedToCart);
 
     let inCart;
