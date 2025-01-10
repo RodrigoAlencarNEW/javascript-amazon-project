@@ -1,5 +1,6 @@
-import { cart, addCart } from "../data/cart.js";
+import { addCart } from "../data/cart.js";
 import { products } from "../data/products.js";
+import { convertCentsToDollars } from "./Utils/convertCentsToDollars.js";
 
 let productGrid = document.querySelector(".products-grid");
 
@@ -25,7 +26,7 @@ products.forEach((product) => {
         </div>
 
         <div class="product-price">
-          $${product.priceCents / 100}
+          $${convertCentsToDollars(product.priceCents)}
         </div>
 
         <div class="product-quantity-container">
