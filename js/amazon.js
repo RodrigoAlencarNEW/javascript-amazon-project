@@ -1,6 +1,9 @@
-import { addCart } from "../data/cart.js";
+import { addCart, cart } from "../data/cart.js";
 import { products } from "../data/products.js";
 import { convertCentsToDollars } from "./Utils/convertCentsToDollars.js";
+import { updateCart } from "./Utils/updateCart.js";
+
+updateCart(cart);
 
 let productGrid = document.querySelector(".products-grid");
 

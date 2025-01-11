@@ -67,11 +67,11 @@
   justify-content: center;
 }
 
-.return-to-home-link {
+.checkout-header-subtext {
   color: rgb(0, 113, 133);
   font-size: 23px;
   text-decoration: none;
-  cursor: pointer;
+  font-weight: bold;
 }
 
 @media (max-width: 1000px) {

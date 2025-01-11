@@ -3,11 +3,12 @@ import {
   saveLocalStorage,
   loadLocalStorage,
 } from "../js/Utils/dinamicLocalStorage.js";
+import { updateCart } from "../js/Utils/updateCart.js";
 
 export let cart = loadLocalStorage("cart") || [
   {
     productId: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
-    quantitySelected: 3,
+    quantitySelected: 1,
   },
   {
     productId: "15b6fc6f-327a-4ec4-896f-486349e85a3d",
@@ -38,10 +39,12 @@ export function addCart(productId, button) {
     cart.push({ productId, quantitySelected });
   }
 
-  cartItems.innerHTML = cart.length;
+  updateCart(cart);
 
   saveLocalStorage("cart", cart);
 }
+
+let checkoutTitle = document.querySelector(".checkout-header-subtext");
 
 export function deleteItem(productId, itemContainer) {
   const newItemList = [];
@@ -55,4 +58,5 @@ export function deleteItem(productId, itemContainer) {
   cart = newItemList;
   itemContainer.remove();
   saveLocalStorage("cart", cart);
+  updateCart(cart);
 }
