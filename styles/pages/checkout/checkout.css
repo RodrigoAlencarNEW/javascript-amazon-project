@@ -209,3 +209,11 @@
   margin-top: 11px;
   margin-bottom: 15px;
 }
+
+.quantity-label {
+  font-weight: bold;
+}
+
+.hidden {
+  display: none;
+}

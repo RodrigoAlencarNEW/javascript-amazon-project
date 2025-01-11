@@ -1,4 +1,4 @@
-import { cart, deleteItem } from "../data/cart.js";
+import { cart, deleteItem, updateItem } from "../data/cart.js";
 import { products } from "../data/products.js";
 import { convertCentsToDollars } from "../js/Utils/convertCentsToDollars.js";
 import { updateCart } from "./Utils/updateCart.js";
@@ -29,11 +29,13 @@ cart.forEach((item) => {
                 </div>
                 <div class="product-quantity">
                   <span>
-                    Quantity: <span class="quantity-label">${
-                      item.quantitySelected
-                    }</span>
+                    Quantity: <span class="quantity-label" data-product-id="${
+                      product.id
+                    }">${item.quantitySelected}</span>
                   </span>
-                  <span class="update-quantity-link link-primary">
+                  <span class="update-quantity-link link-primary" data-product-id="${
+                    product.id
+                  }">
                     Update
                   </span>
                   <span class="delete-quantity-link link-primary" data-product-id="${
@@ -104,5 +106,15 @@ deleteLink.forEach((button) => {
     );
 
     deleteItem(productId, itemContainer);
+  });
+});
+
+let updateLink = document.querySelectorAll(".update-quantity-link");
+
+updateLink.forEach((button) => {
+  button.addEventListener("click", () => {
+    const { productId } = button.dataset;
+
+    updateItem(productId, button);
   });
 });

@@ -16,8 +16,6 @@ export let cart = loadLocalStorage("cart") || [
   },
 ];
 
-let cartItems = document.querySelector("#js-cart-quantity");
-
 export function addCart(productId, button) {
   const selectedItem = button.parentElement.querySelector("select");
   const quantitySelected = Number(selectedItem.value);
@@ -44,8 +42,6 @@ export function addCart(productId, button) {
   saveLocalStorage("cart", cart);
 }
 
-let checkoutTitle = document.querySelector(".checkout-header-subtext");
-
 export function deleteItem(productId, itemContainer) {
   const newItemList = [];
 
@@ -60,3 +56,49 @@ export function deleteItem(productId, itemContainer) {
   saveLocalStorage("cart", cart);
   updateCart(cart);
 }
+
+export const updateItem = (productId, button) => {
+  const input = document.createElement("input");
+  input.classList.add("quantity-input");
+  input.style.width = "30px";
+  input.placeholder = "0";
+
+  const span = document.createElement("span");
+  span.classList.add("save-quantity-link", "link-primary");
+  span.textContent = "Save";
+
+  button.insertAdjacentElement("afterend", span);
+  button.insertAdjacentElement("afterend", input);
+  button.classList.add("hidden");
+
+  span.addEventListener("click", () => {
+    const quantity = input.value;
+
+    if (isNaN(quantity)) return;
+
+    button.classList.add("hidden");
+
+    cart.forEach((item) => {
+      if (item.productId === productId) {
+        item.quantitySelected = Number(quantity);
+
+        const quantityLabel = document.querySelector(
+          `.quantity-label[data-product-id="${productId}"]`
+        );
+
+        quantityLabel.textContent = item.quantitySelected;
+      }
+    });
+
+    saveLocalStorage("cart", cart);
+    button.classList.remove("hidden");
+    span.remove();
+    input.remove();
+  });
+
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      span.click();
+    }
+  });
+};
