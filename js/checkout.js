@@ -1,4 +1,5 @@
 import { cart, deleteItem, updateItem } from "../data/cart.js";
+import { deliveryOptions } from "../data/deliveryOptions.js";
 import { products } from "../data/products.js";
 import { convertCentsToDollars } from "../js/Utils/convertCentsToDollars.js";
 import { updateCart } from "./Utils/updateCart.js";
@@ -10,10 +11,15 @@ let items = "";
 
 cart.forEach((item) => {
   const product = products.find((product) => product.id === item.productId);
+  const deliveryOption = deliveryOptions.find(
+    (delivery) => delivery.id === item.deliveryOptionId
+  );
 
-  items += `<div class="cart-item-container" data-product-id="${product.id}">
+  const deliveryDate = dayjs().format("dddd, MMMM D");
+
+  items += `<div class="cart-item-container-${product.id}">
             <div class="delivery-date">
-              Delivery date: Tuesday, June 21
+              Delivery date: ${deliveryDate}
             </div>
 
             <div class="cart-item-details-grid">
@@ -50,45 +56,10 @@ cart.forEach((item) => {
                 <div class="delivery-options-title">
                   Choose a delivery option:
                 </div>
-                <div class="delivery-option">
-                  <input type="radio" checked
-                    class="delivery-option-input"
-                    name="delivery-option-${product.id}">
-                  <div>
-                    <div class="delivery-option-date">
-                      Tuesday, June 21
-                    </div>
-                    <div class="delivery-option-price">
-                      FREE Shipping
-                    </div>
-                  </div>
-                </div>
-                <div class="delivery-option">
-                  <input type="radio"
-                    class="delivery-option-input"
-                    name="delivery-option-${product.id}">
-                  <div>
-                    <div class="delivery-option-date">
-                      Wednesday, June 15
-                    </div>
-                    <div class="delivery-option-price">
-                      $4.99 - Shipping
-                    </div>
-                  </div>
-                </div>
-                <div class="delivery-option">
-                  <input type="radio"
-                    class="delivery-option-input"
-                    name="delivery-option-${product.id}">
-                  <div>
-                    <div class="delivery-option-date">
-                      Monday, June 13
-                    </div>
-                    <div class="delivery-option-price">
-                      $9.99 - Shipping
-                    </div>
-                  </div>
-                </div>
+                
+                ${deliveryTimeUpdate(product, item)}
+                   
+                
               </div>
             </div>
           </div>`;
@@ -102,7 +73,7 @@ deleteLink.forEach((button) => {
   button.addEventListener("click", () => {
     const { productId } = button.dataset;
     const itemContainer = document.querySelector(
-      `[data-product-id="${productId}"]`
+      `.cart-item-container-${productId}`
     );
 
     deleteItem(productId, itemContainer);
@@ -118,3 +89,37 @@ updateLink.forEach((button) => {
     updateItem(productId, button);
   });
 });
+
+function deliveryTimeUpdate(product, item) {
+  let html = "";
+
+  deliveryOptions.forEach((delivery) => {
+    const deliveryDate = dayjs()
+      .add(delivery.days, "day")
+      .format("dddd, MMMM D");
+
+    const isChecked = delivery.id === item.deliveryOptionId;
+
+    html += `
+      <div class="delivery-option">
+        <input type="radio"
+          ${isChecked ? "checked" : ""}
+          class="delivery-option-input"
+          name="delivery-option-${product.id}">
+        <div>
+          <div class="delivery-option-date">
+            ${deliveryDate}
+          </div>
+          <div class="delivery-option-price">
+            ${
+              delivery.cost === 0
+                ? "FREE Shipping"
+                : `$${convertCentsToDollars(delivery.cost)}`
+            }
+          </div>
+        </div>
+      </div>
+    `;
+  });
+  return html;
+}
