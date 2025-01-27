@@ -1,4 +1,9 @@
-import { cart, deleteItem, updateItem } from "../data/cart.js";
+import {
+  cart,
+  deleteItem,
+  updateDeliveryOption,
+  updateItem,
+} from "../data/cart.js";
 import { deliveryOptions } from "../data/deliveryOptions.js";
 import { products } from "../data/products.js";
 import { convertCentsToDollars } from "../js/Utils/convertCentsToDollars.js";
@@ -15,10 +20,12 @@ cart.forEach((item) => {
     (delivery) => delivery.id === item.deliveryOptionId
   );
 
-  const deliveryDate = dayjs().format("dddd, MMMM D");
+  if (!product || !deliveryOption) return;
+
+  const deliveryDate = dayjs().add(deliveryOption.days, "day").format("dddd, MMMM D");
 
   items += `<div class="cart-item-container-${product.id}">
-            <div class="delivery-date">
+            <div class="delivery-date" id="delivery-date-${product.id}">
               Delivery date: ${deliveryDate}
             </div>
 
@@ -101,7 +108,9 @@ function deliveryTimeUpdate(product, item) {
     const isChecked = delivery.id === item.deliveryOptionId;
 
     html += `
-      <div class="delivery-option">
+      <div class="delivery-option" data-delivery-option-id="${
+        delivery.id
+      }" data-product-id="${product.id}">
         <input type="radio"
           ${isChecked ? "checked" : ""}
           class="delivery-option-input"
@@ -123,3 +132,12 @@ function deliveryTimeUpdate(product, item) {
   });
   return html;
 }
+
+let deliveryOptionInput = document.querySelectorAll(".delivery-option");
+
+deliveryOptionInput.forEach((input) => {
+  input.addEventListener("click", () => {
+    const { productId, deliveryOptionId } = input.dataset;
+    updateDeliveryOption(productId, deliveryOptionId);
+  });
+});

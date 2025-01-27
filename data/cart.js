@@ -4,6 +4,7 @@ import {
   loadLocalStorage,
 } from "../js/Utils/dinamicLocalStorage.js";
 import { updateCart } from "../js/Utils/updateCart.js";
+import { deliveryOptions } from "./deliveryOptions.js";
 
 export let cart = loadLocalStorage("cart") || [
   {
@@ -39,9 +40,8 @@ export function addCart(productId, button) {
     cart.push({ productId, quantitySelected });
   }
 
-  updateCart(cart);
-
   saveLocalStorage("cart", cart);
+  updateCart(cart);
 }
 
 export function deleteItem(productId, itemContainer) {
@@ -59,11 +59,11 @@ export function deleteItem(productId, itemContainer) {
   updateCart(cart);
 }
 
-export const updateItem = (productId, button) => {
+export function updateItem(productId, button) {
   const input = document.createElement("input");
   input.classList.add("quantity-input");
   input.style.width = "30px";
-  input.placeholder = "0";
+  input.placeholder = "1";
 
   const span = document.createElement("span");
   span.classList.add("save-quantity-link", "link-primary");
@@ -76,7 +76,7 @@ export const updateItem = (productId, button) => {
   span.addEventListener("click", () => {
     const quantity = input.value;
 
-    if (isNaN(quantity)) return;
+    if (isNaN(quantity) || quantity < 1) return;
 
     button.classList.add("hidden");
 
@@ -103,4 +103,24 @@ export const updateItem = (productId, button) => {
       span.click();
     }
   });
-};
+}
+
+export function updateDeliveryOption(productId, deliveryOptionId) {
+  let cartItem = cart.find((item) => item.productId === productId);
+
+  cartItem.deliveryOptionId = deliveryOptionId;
+
+  let deliveryOption = deliveryOptions.find(
+    (delivery) => delivery.id === cartItem.deliveryOptionId
+  );
+
+  const deliveryDate = dayjs()
+    .add(deliveryOption.days, "day")
+    .format("dddd, MMMM D");
+
+  const container = document.querySelectorAll(`#delivery-date-${productId}`)[0];
+  container.textContent = `Delivery date: ${deliveryDate}`;
+
+  saveLocalStorage("cart", cart);
+  updateCart(cart);
+}
