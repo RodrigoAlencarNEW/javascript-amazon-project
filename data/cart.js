@@ -6,6 +6,9 @@ import {
 import { updateCart } from "../js/Utils/updateCart.js";
 import { updateDeliveryInput } from "../js/Utils/updateDeliveryInput.js";
 import { deliveryOptions } from "./deliveryOptions.js";
+import { products } from "./products.js";
+import { convertCentsToDollars } from "../js/Utils/convertCentsToDollars.js";
+import { updatePayment } from "../js/Utils/updatePayment.js";
 
 export let cart = loadLocalStorage("cart") || [
   {
@@ -57,6 +60,7 @@ export function deleteItem(productId, itemContainer) {
   });
 
   cart = newItemList;
+  updatePayment(cart);
   itemContainer.remove();
   saveLocalStorage("cart", cart);
   updateCart(cart);
@@ -91,10 +95,23 @@ export function updateItem(productId, button) {
           `.quantity-label[data-product-id="${productId}"]`
         );
 
+        item.priceCents = products.find(
+          (product) => product.id === item.productId
+        ).priceCents;
+
+        const contentPriceUpdate = document.querySelector(
+          `.product-price-${item.productId}`
+        );
+
+        contentPriceUpdate.textContent = `$${convertCentsToDollars(
+          item.priceCents * item.quantitySelected
+        )}`;
+
         quantityLabel.textContent = item.quantitySelected;
       }
     });
 
+    updatePayment(cart);
     saveLocalStorage("cart", cart);
     button.classList.remove("hidden");
     span.remove();
@@ -125,6 +142,7 @@ export function updateDeliveryOption(productId, deliveryOptionId, content) {
   container.textContent = `Delivery date: ${deliveryDate}`;
 
   updateDeliveryInput(content);
+  updatePayment(cart);
   saveLocalStorage("cart", cart);
   updateCart(cart);
 }

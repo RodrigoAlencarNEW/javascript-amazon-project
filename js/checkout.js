@@ -9,11 +9,12 @@ import { products } from "../data/products.js";
 import { convertCentsToDollars } from "../js/Utils/convertCentsToDollars.js";
 import { updateCart } from "./Utils/updateCart.js";
 import { updateDeliveryDate } from "./Utils/updateDeliveryDate.js";
+import { updatePayment } from "./Utils/updatePayment.js";
 
 updateCart(cart);
 
 let containerItens = document.querySelector(".order-summary");
-let items = "";
+let itemsHTML = "";
 
 cart.forEach((item) => {
   const product = products.find((product) => product.id === item.productId);
@@ -21,7 +22,7 @@ cart.forEach((item) => {
     (delivery) => delivery.id === item.deliveryOptionId
   );
 
-  items += `<div class="cart-item-container-${product.id}">
+  itemsHTML += `<div class="cart-item-container-${product.id}">
             <div class="delivery-date" id="delivery-date-${product.id}">
               Delivery date: ${updateDeliveryDate(deliveryOption)}
             </div>
@@ -34,8 +35,10 @@ cart.forEach((item) => {
                 <div class="product-name">
                   ${product.name}
                 </div>
-                <div class="product-price">
-                  $${convertCentsToDollars(product.priceCents)}
+                <div class="product-price product-price-${product.id}">
+                  $${convertCentsToDollars(
+                    product.priceCents * item.quantitySelected
+                  )}
                 </div>
                 <div class="product-quantity">
                   <span>
@@ -68,7 +71,7 @@ cart.forEach((item) => {
             </div>
           </div>`;
 
-  containerItens.innerHTML = items;
+  containerItens.innerHTML = itemsHTML;
 });
 
 let deleteLink = document.querySelectorAll(".delete-quantity-link");
@@ -81,6 +84,12 @@ deleteLink.forEach((button) => {
     );
 
     deleteItem(productId, itemContainer);
+
+    const quantityPaymentItems = document.querySelector(
+      ".payment-summary-label"
+    );
+
+    quantityPaymentItems.textContent = `Items (${cart.length}):`;
   });
 });
 
@@ -139,3 +148,69 @@ deliveryOptionInput.forEach((input) => {
     updateDeliveryOption(productId, deliveryOptionId, input);
   });
 });
+
+let containerPayment = document.querySelector(".payment-summary");
+let paymentHTML = "";
+
+let productsTotalValue = 0;
+let deliveryValue = 0;
+
+cart.forEach((item) => {
+  const product = products.find((product) => product.id === item.productId);
+  const deliveryOption = deliveryOptions.find(
+    (delivery) => delivery.id === item.deliveryOptionId
+  );
+
+  productsTotalValue += product.priceCents * item.quantitySelected;
+
+  deliveryValue += deliveryOption.cost;
+});
+
+const totalValue = productsTotalValue + deliveryValue;
+const tax = totalValue * 0.1;
+const totalValueWithTax = totalValue + tax;
+
+paymentHTML += `
+          <div class="payment-summary-title">Order Summary</div>
+
+          <div class="payment-summary-row">
+            <div class="payment-summary-label">Items (${cart.length}):</div>
+            <div class="payment-summary-money" id="payment-products">$${convertCentsToDollars(
+              productsTotalValue
+            )}</div>
+          </div>
+
+          <div class="payment-summary-row">
+            <div>Shipping &amp; handling:</div>
+            <div class="payment-summary-money" id="payment-delivery">$${convertCentsToDollars(
+              deliveryValue
+            )}</div>
+          </div>
+
+          <div class="payment-summary-row subtotal-row">
+            <div>Total before tax:</div>
+            <div class="payment-summary-money"  id="payment-total">$${convertCentsToDollars(
+              totalValue
+            )}</div>
+          </div>
+
+          <div class="payment-summary-row">
+            <div>Estimated tax (10%):</div>
+            <div class="payment-summary-money" id="payment-tax">$${convertCentsToDollars(
+              tax
+            )}</div>
+          </div>
+
+          <div class="payment-summary-row total-row">
+            <div>Order total:</div>
+            <div class="payment-summary-money" id="payment-total-with-tax">$${convertCentsToDollars(
+              totalValueWithTax
+            )}</div>
+          </div>
+
+          <button class="place-order-button button-primary">
+            Place your order
+          </button>
+  `;
+
+containerPayment.innerHTML = paymentHTML;
