@@ -4,6 +4,7 @@ import {
   loadLocalStorage,
 } from "../js/Utils/dinamicLocalStorage.js";
 import { updateCart } from "../js/Utils/updateCart.js";
+import { updateDeliveryInput } from "../js/Utils/updateDeliveryInput.js";
 import { deliveryOptions } from "./deliveryOptions.js";
 
 export let cart = loadLocalStorage("cart") || [
@@ -34,10 +35,12 @@ export function addCart(productId, button) {
     if (productId === item.productId) inCart = item;
   });
 
-  if (inCart) inCart.quantitySelected += quantitySelected;
+  if (inCart) {
+    inCart.quantitySelected += quantitySelected;
+  }
 
   if (!inCart) {
-    cart.push({ productId, quantitySelected });
+    cart.push({ productId, quantitySelected, deliveryOptionId: "1" });
   }
 
   saveLocalStorage("cart", cart);
@@ -105,7 +108,7 @@ export function updateItem(productId, button) {
   });
 }
 
-export function updateDeliveryOption(productId, deliveryOptionId) {
+export function updateDeliveryOption(productId, deliveryOptionId, content) {
   let cartItem = cart.find((item) => item.productId === productId);
 
   cartItem.deliveryOptionId = deliveryOptionId;
@@ -121,6 +124,7 @@ export function updateDeliveryOption(productId, deliveryOptionId) {
   const container = document.querySelectorAll(`#delivery-date-${productId}`)[0];
   container.textContent = `Delivery date: ${deliveryDate}`;
 
+  updateDeliveryInput(content);
   saveLocalStorage("cart", cart);
   updateCart(cart);
 }
