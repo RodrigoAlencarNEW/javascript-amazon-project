@@ -1,6 +1,7 @@
-import { products } from "../../data/products.js";
-import { deliveryOptions } from "../../data/deliveryOptions.js";
-import { convertCentsToDollars } from "./convertCentsToDollars.js";
+import { products } from "../../../../data/products.js";
+import { deliveryOptions } from "../../../../data/deliveryOptions.js";
+import { convertCentsToDollars } from "../../../Utils/convertCentsToDollars.js";
+import { cart } from "../../../../data/cart.js";
 
 let paymentProducts;
 let paymentDelivery;
@@ -8,7 +9,7 @@ let paymentTotal;
 let paymentTax;
 let paymentTotalWithTax;
 
-export function updatePayment(cart) {
+export function updatePayment() {
   paymentProducts = document.querySelector("#payment-products");
   paymentDelivery = document.querySelector("#payment-delivery");
   paymentTotal = document.querySelector("#payment-total");
@@ -18,7 +19,7 @@ export function updatePayment(cart) {
   let productsTotalValue = 0;
   let deliveryValue = 0;
 
-  cart.forEach((item) => {
+  cart.Items.forEach((item) => {
     const product = products.find((product) => product.id === item.productId);
     const deliveryOption = deliveryOptions.find(
       (delivery) => delivery.id === item.deliveryOptionId
@@ -33,29 +34,15 @@ export function updatePayment(cart) {
   const tax = totalValue * 0.1;
   const totalValueWithTax = totalValue + tax;
 
-  if (paymentProducts) {
-    paymentProducts.textContent = `$${convertCentsToDollars(
-      productsTotalValue
-    )}`;
-  }
+  paymentProducts.textContent = `$${convertCentsToDollars(productsTotalValue)}`;
 
-  if (paymentDelivery) {
-    paymentDelivery.textContent = `$${convertCentsToDollars(deliveryValue)}`;
-  }
+  paymentDelivery.textContent = `$${convertCentsToDollars(deliveryValue)}`;
 
-  if (paymentTotal) {
-    paymentTotal.textContent = `$${convertCentsToDollars(totalValue)}`;
-  }
+  paymentTotal.textContent = `$${convertCentsToDollars(totalValue)}`;
 
-  if (paymentTax) {
-    paymentTax.textContent = `$${convertCentsToDollars(tax)}`;
-  }
+  paymentTax.textContent = `$${convertCentsToDollars(tax)}`;
 
-  if (paymentTotalWithTax) {
-    paymentTotalWithTax.textContent = `$${convertCentsToDollars(
-      totalValueWithTax
-    )}`;
-  }
-
-  return { productsTotalValue, deliveryValue };
+  paymentTotalWithTax.textContent = `$${convertCentsToDollars(
+    totalValueWithTax
+  )}`;
 }

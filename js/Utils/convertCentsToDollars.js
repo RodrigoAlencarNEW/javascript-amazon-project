@@ -1,3 +1,3 @@
 export function convertCentsToDollars(value) {
-  return Number(value / 100).toFixed(2);
+  return (Math.round(value) / 100).toFixed(2);
 }

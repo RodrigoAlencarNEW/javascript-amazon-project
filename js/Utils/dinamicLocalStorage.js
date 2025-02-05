@@ -1,7 +1,7 @@
-export function saveLocalStorage(key, value) {
-  return localStorage.setItem(key, JSON.stringify(value));
+export function saveLocalStorage(value) {
+  return localStorage.setItem("cart", JSON.stringify(value));
 }
 
-export function loadLocalStorage(key) {
-  return JSON.parse(localStorage.getItem(key));
+export function loadLocalStorage() {
+  return JSON.parse(localStorage.getItem("cart"));
 }
