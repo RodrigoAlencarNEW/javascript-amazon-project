@@ -10,7 +10,7 @@ export function renderPaymentSummary() {
   let productsTotalValue = 0;
   let deliveryValue = 0;
 
-  cart.Items.forEach((item) => {
+  cart.cartItems.forEach((item) => {
     const product = products.find((product) => product.id === item.productId);
     const deliveryOption = deliveryOptions.find(
       (delivery) => delivery.id === item.deliveryOptionId
@@ -30,7 +30,7 @@ export function renderPaymentSummary() {
 
           <div class="payment-summary-row">
             <div class="payment-summary-label">Items (${
-              cart.Items.length
+              cart.cartItems.length
             }):</div>
             <div class="payment-summary-money" id="payment-products">$${convertCentsToDollars(
               productsTotalValue

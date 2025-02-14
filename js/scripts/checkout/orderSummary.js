@@ -10,7 +10,7 @@ let containerItens = document.querySelector(".order-summary");
 let itemsHTML = "";
 
 export function renderOrderSummary() {
-  cart.Items.forEach((item) => {
+  cart.cartItems.forEach((item) => {
     const product = products.find((product) => product.id === item.productId);
     const deliveryOption = deliveryOptions.find(
       (delivery) => delivery.id === item.deliveryOptionId
@@ -83,7 +83,7 @@ export function renderOrderSummary() {
         ".payment-summary-label"
       );
 
-      quantityPaymentItems.textContent = `Items (${cart.Items.length}):`;
+      quantityPaymentItems.textContent = `Items (${cart.cartItems.length}):`;
     });
   });
 

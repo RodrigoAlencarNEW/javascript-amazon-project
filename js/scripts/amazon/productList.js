@@ -2,7 +2,6 @@ import { cart } from "../../../data/cart.js";
 import { products } from "../../../data/products.js";
 import { convertCentsToDollars } from "../../Utils/convertCentsToDollars.js";
 
-
 cart.updateCartItems();
 
 export function renderProductList() {
@@ -21,16 +20,14 @@ export function renderProductList() {
         </div>
 
         <div class="product-rating-container">
-          <img class="product-rating-stars" src="images/ratings/rating-${
-            product.rating.stars * 10
-          }.png">
+          <img class="product-rating-stars" ${product.getRating()}>
           <div class="product-rating-count link-primary">
             ${product.rating.count}
           </div>
         </div>
 
         <div class="product-price">
-          $${convertCentsToDollars(product.priceCents)}
+          $${product.getPrice()}
         </div>
 
         <div class="product-quantity-container">

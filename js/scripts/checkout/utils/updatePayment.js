@@ -19,7 +19,7 @@ export function updatePayment() {
   let productsTotalValue = 0;
   let deliveryValue = 0;
 
-  cart.Items.forEach((item) => {
+  cart.cartItems.forEach((item) => {
     const product = products.find((product) => product.id === item.productId);
     const deliveryOption = deliveryOptions.find(
       (delivery) => delivery.id === item.deliveryOptionId
