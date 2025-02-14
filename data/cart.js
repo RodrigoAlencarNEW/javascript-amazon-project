@@ -7,22 +7,22 @@ import { updatePayment } from "../js/scripts/checkout/utils/updatePayment.js";
 
 class Cart {
   cartItems;
-  localStorageKey;
+  #localStorageKey;
 
   constructor(localStorageKey) {
-    this.localStorageKey = localStorageKey;
+    this.#localStorageKey = localStorageKey;
     this.loadLocalStorage();
   }
 
   saveLocalStorage() {
     return localStorage.setItem(
-      this.localStorageKey,
+      this.#localStorageKey,
       JSON.stringify(this.cartItems)
     );
   }
 
   loadLocalStorage() {
-    this.cartItems = JSON.parse(localStorage.getItem(this.localStorageKey));
+    this.cartItems = JSON.parse(localStorage.getItem(this.#localStorageKey));
 
     if (!this.cartItems) {
       this.cartItems = [
