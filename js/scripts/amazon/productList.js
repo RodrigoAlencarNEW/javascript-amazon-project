@@ -1,6 +1,5 @@
 import { cart } from "../../../data/cart.js";
 import { products } from "../../../data/products.js";
-import { convertCentsToDollars } from "../../Utils/convertCentsToDollars.js";
 
 cart.updateCartItems();
 
