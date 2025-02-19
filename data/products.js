@@ -30,8 +30,8 @@ export function loadProductsData(functionToRun) {
       .then((response) => {
         return response.json();
       })
-      .then((data) => {
-        products = data.map((productDetails) => {
+      .then((productsList) => {
+        products = productsList.map((productDetails) => {
           return new Product(productDetails);
         });
       })
