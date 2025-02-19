@@ -24,17 +24,19 @@ class Product {
 
 export let products = [];
 
-export function loadProductsData(renderFunction) {
-  const xhr = new XMLHttpRequest();
-
-  xhr.addEventListener("load", () => {
-    products = JSON.parse(xhr.response).map((productDetails) => {
-      return new Product(productDetails);
-    });
-
-    renderFunction();
+export function loadProductsData(functionToRun) {
+  new Promise(() => {
+    fetch("https://supersimplebackend.dev/products")
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        products = data.map((productDetails) => {
+          return new Product(productDetails);
+        });
+      })
+      .then(() => {
+        functionToRun();
+      });
   });
-
-  xhr.open("GET", "https://supersimplebackend.dev/products");
-  xhr.send();
 }
