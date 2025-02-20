@@ -7,7 +7,6 @@ export function addOrder(order) {
 
   ordersList.unshift(order);
   saveLocalStorage();
-  console.log(ordersList);
 }
 
 function saveLocalStorage() {
