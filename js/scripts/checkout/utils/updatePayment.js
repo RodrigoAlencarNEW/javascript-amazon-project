@@ -25,7 +25,7 @@ export function updatePayment() {
       (delivery) => delivery.id === item.deliveryOptionId
     );
 
-    productsTotalValue += product.priceCents * item.quantitySelected;
+    productsTotalValue += product.priceCents * item.quantity;
 
     deliveryValue += deliveryOption.cost;
   });

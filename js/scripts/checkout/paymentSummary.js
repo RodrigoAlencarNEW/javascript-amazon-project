@@ -1,7 +1,9 @@
 import { cart } from "../../../data/cart.js";
 import { deliveryOptions } from "../../../data/deliveryOptions.js";
+import { addOrder } from "../../../data/orders.js";
 import { products } from "../../../data/products.js";
 import { convertCentsToDollars } from "../../Utils/convertCentsToDollars.js";
+import { orderPost } from "./utils/orderApi.js";
 
 let containerPayment = document.querySelector(".payment-summary");
 let paymentHTML = "";
@@ -16,7 +18,7 @@ export function renderPaymentSummary() {
       (delivery) => delivery.id === item.deliveryOptionId
     );
 
-    productsTotalValue += product.priceCents * item.quantitySelected;
+    productsTotalValue += product.priceCents * item.quantity;
 
     deliveryValue += deliveryOption.cost;
   });
@@ -65,10 +67,16 @@ export function renderPaymentSummary() {
             )}</div>
           </div>
 
-          <button class="place-order-button button-primary">
+          <button class="place-order-button button-primary js-orders-button">
             Place your order
           </button>
   `;
 
   containerPayment.innerHTML = paymentHTML;
+
+  let ordersButton = document.querySelector(".js-orders-button");
+
+  ordersButton.addEventListener("click", async () => {
+    orderPost();
+  });
 }

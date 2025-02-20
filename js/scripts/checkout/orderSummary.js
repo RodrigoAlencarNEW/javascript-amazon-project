@@ -31,14 +31,14 @@ export function renderOrderSummary() {
                 </div>
                 <div class="product-price product-price-${product.id}">
                   $${convertCentsToDollars(
-                    product.priceCents * item.quantitySelected
+                    product.priceCents * item.quantity
                   )}
                 </div>
                 <div class="product-quantity">
                   <span>
                     Quantity: <span class="quantity-label" data-product-id="${
                       product.id
-                    }">${item.quantitySelected}</span>
+                    }">${item.quantity}</span>
                   </span>
                   <span class="update-quantity-link link-primary" data-product-id="${
                     product.id

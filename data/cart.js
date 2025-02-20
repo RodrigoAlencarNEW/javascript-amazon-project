@@ -28,13 +28,13 @@ class Cart {
       this.cartItems = [
         {
           productId: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
-          quantitySelected: 1,
+          quantity: 1,
           deliveryOptionId: "1",
         },
 
         {
           productId: "15b6fc6f-327a-4ec4-896f-486349e85a3d",
-          quantitySelected: 1,
+          quantity: 1,
           deliveryOptionId: "2",
         },
       ];
@@ -43,7 +43,7 @@ class Cart {
 
   addCart(productId, button) {
     const selectedItem = button.parentElement.querySelector("select");
-    const quantitySelected = Number(selectedItem.value);
+    const quantity = Number(selectedItem.value);
     selectedItem.classList.add(`js-selected-${productId}`);
 
     const addedToCart = button.parentElement.querySelector(".added-to-cart");
@@ -57,13 +57,13 @@ class Cart {
     });
 
     if (inCart) {
-      inCart.quantitySelected += quantitySelected;
+      inCart.quantity += quantity;
     }
 
     if (!inCart) {
       this.cartItems.push({
         productId,
-        quantitySelected,
+        quantity,
         deliveryOptionId: "1",
       });
     }
@@ -111,7 +111,7 @@ class Cart {
 
       this.cartItems.forEach((item) => {
         if (item.productId === productId) {
-          item.quantitySelected = Number(quantity);
+          item.quantity = Number(quantity);
 
           const quantityLabel = document.querySelector(
             `.quantity-label[data-product-id="${productId}"]`
@@ -126,10 +126,10 @@ class Cart {
           );
 
           contentPriceUpdate.textContent = `$${convertCentsToDollars(
-            item.priceCents * item.quantitySelected
+            item.priceCents * item.quantity
           )}`;
 
-          quantityLabel.textContent = item.quantitySelected;
+          quantityLabel.textContent = item.quantity;
         }
       });
 
