@@ -25,6 +25,7 @@ export async function orderPost() {
     const order = await response.json();
 
     addOrder(order);
+    window.location.href = "orders.html";
   } catch (error) {
     alert(
       error.message +

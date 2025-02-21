@@ -1,3 +1,4 @@
+import { loadProductsData } from "../../../data/products.js";
 import { renderPurchaseSummary } from "./components/purchaseSummary.js";
 
-renderPurchaseSummary();
+loadProductsData(renderPurchaseSummary);

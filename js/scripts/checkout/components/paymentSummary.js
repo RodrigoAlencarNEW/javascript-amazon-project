@@ -77,7 +77,5 @@ export function renderPaymentSummary() {
 
   ordersButton.addEventListener("click", async () => {
     orderPost();
-
-    window.location.href = "./orders.html";
   });
 }
