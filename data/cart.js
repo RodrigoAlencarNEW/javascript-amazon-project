@@ -171,11 +171,11 @@ class Cart {
   }
 
   updateCartItems() {
-    let cartItems = document.querySelector("#js-cart-quantity");
+    let amazonItems = document.querySelector(".cart-quantity");
     let checkoutItems = document.querySelector(".checkout-header-subtext");
     let paymentItems = document.querySelector(".payment-summary-label");
 
-    if (cartItems) cartItems.innerHTML = this.cartItems.length;
+    if (amazonItems) amazonItems.innerHTML = this.cartItems.length;
 
     if (paymentItems) paymentItems.innerHTML = this.cartItems.length;
 
