@@ -1,9 +1,8 @@
-import { cart } from "../../../data/cart.js";
-import { deliveryOptions } from "../../../data/deliveryOptions.js";
-import { addOrder } from "../../../data/orders.js";
-import { products } from "../../../data/products.js";
-import { convertCentsToDollars } from "../../Utils/convertCentsToDollars.js";
-import { orderPost } from "./utils/orderApi.js";
+import { cart } from "../../../../../data/cart.js";
+import { deliveryOptions } from "../../../../data/deliveryOptions.js";
+import { products } from "../../../../data/products.js";
+import { convertCentsToDollars } from "../../../Utils/convertCentsToDollars.js";
+import { orderPost } from "../utils/orderApi.js";
 
 let containerPayment = document.querySelector(".payment-summary");
 let paymentHTML = "";
@@ -78,7 +77,7 @@ export function renderPaymentSummary() {
 
   ordersButton.addEventListener("click", async () => {
     orderPost();
-    
+
     window.location.href = "./orders.html";
   });
 }

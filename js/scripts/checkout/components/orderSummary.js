@@ -1,8 +1,8 @@
-import { cart } from "../../../data/cart.js";
-import { deliveryOptions } from "../../../data/deliveryOptions.js";
-import { products } from "../../../data/products.js";
-import { convertCentsToDollars } from "../../Utils/convertCentsToDollars.js";
-import { updateDeliveryDate } from "./utils/updateDeliveryDate.js";
+import { cart } from "../../../../data/cart.js";
+import { deliveryOptions } from "../../../../data/deliveryOptions.js";
+import { products } from "../../../../data/products.js";
+import { convertCentsToDollars } from "../../../Utils/convertCentsToDollars.js";
+import { updateDeliveryDate } from "../utils/updateDeliveryDate.js";
 
 cart.updateCartItems();
 
@@ -30,9 +30,7 @@ export function renderOrderSummary() {
                   ${product.name}
                 </div>
                 <div class="product-price product-price-${product.id}">
-                  $${convertCentsToDollars(
-                    product.priceCents * item.quantity
-                  )}
+                  $${convertCentsToDollars(product.priceCents * item.quantity)}
                 </div>
                 <div class="product-quantity">
                   <span>
