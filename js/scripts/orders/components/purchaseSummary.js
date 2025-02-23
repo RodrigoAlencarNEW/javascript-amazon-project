@@ -60,10 +60,18 @@ export function renderPurchaseSummary() {
                     Quantity: ${item.quantity}
                 </div>
                 
-                <button class="buy-again-button button-primary">
-                    <img class="buy-again-icon" src="images/icons/buy-again.png">
-                    <span class="buy-again-message">Buy it again</span>
-                </button>
+                <div class='buttons-itens-order-container'> 
+                  <button class="buy-again-button button-primary">
+                      <img class="buy-again-icon" src="images/icons/buy-again.png">
+                      <span class="buy-again-message">Buy it again</span>
+                  </button>
+                  <button class="remove-order-button button-primary">
+                      <img class="buy-again-icon" src="images/icons/delete-icon.png">
+                      <span class="buy-again-message">Remove order</span>
+                  </button>
+                
+                </div>
+
 
             </div>
 
