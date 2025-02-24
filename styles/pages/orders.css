@@ -91,25 +91,60 @@
   border-top: none;
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
+  gap: 3rem;
+  display: flex;
+  flex-direction: column;
+}
 
+.order-item-container {
   display: grid;
   grid-template-columns: 110px 1fr 220px;
-  column-gap: 35px;
-  row-gap: 60px;
+  column-gap: 2rem;
   align-items: center;
 }
 
+.order-item-container > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  height: 100%;
+  justify-content: center;
+}
+
 @media (max-width: 800px) {
+  .product-image-container {
+    width: 110px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .product-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
   .order-details-grid {
-    grid-template-columns: 110px 1fr;
-    row-gap: 0;
+    display: flex;
+    row-gap: 1;
     padding-bottom: 8px;
+    align-items: center;
+  }
+
+  .order-item-container {
+    display: flex;
+  }
+
+  .order-item-container > div:last-child {
+    display: none;
   }
 }
 
 @media (max-width: 450px) {
-  .order-details-grid {
-    grid-template-columns: 1fr;
+  .order-item-container {
+    grid-template-columns: 110px 1fr;
   }
 }
 
@@ -190,8 +225,8 @@
        an element is placed in is determined by the order
        of the elements in the HTML. grid-column overrides
        this default ordering). */
-    grid-column: 2;
-    margin-bottom: 30px;
+    grid-column: 1;
+    margin-bottom: 1rem;
   }
 
   .track-package-button {

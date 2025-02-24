@@ -41,47 +41,47 @@ export function renderPurchaseSummary() {
 
             if (product) {
               return `
-          
-            <div class="product-image-container">
-                <img src="${product.image}">
-            </div>
-
-            <div class="product-details">
-            
-                <div class="product-name">
-                    ${product.name}
+              <div class="order-item-container"> 
+                <div class="product-image-container">
+                  <img src="${product.image}">
                 </div>
+
+                <div class="product-details">
+                
+                    <div class="product-name">
+                        ${product.name}
+                    </div>
+                        
+                    <div class="product-delivery-date">
+                        Arriving on: ${convertDate(item.estimatedDeliveryTime)}
+                    </div>
+
+                    <div class="product-quantity">
+                        Quantity: ${item.quantity}
+                    </div>
                     
-                <div class="product-delivery-date">
-                    Arriving on: ${convertDate(item.estimatedDeliveryTime)}
+                    <div class='buttons-itens-order-container'> 
+                      <button class="buy-again-button button-primary">
+                          <img class="buy-again-icon" src="images/icons/buy-again.png">
+                          <span class="buy-again-message">Buy it again</span>
+                      </button>
+                      <button class="remove-order-button button-primary">
+                          <img class="buy-again-icon" src="images/icons/delete-icon.png">
+                          <span data-product-id="${
+                            product.id
+                          }"class="remove-product-message">Remove product</span>
+                      </button>
+                    </div>
                 </div>
 
-                <div class="product-quantity">
-                    Quantity: ${item.quantity}
+                <div class="product-actions">
+                    <a href="tracking.html">
+                        <button class="track-package-button button-secondary">
+                            Track package
+                        </button>
+                    </a>
                 </div>
-                
-                <div class='buttons-itens-order-container'> 
-                  <button class="buy-again-button button-primary">
-                      <img class="buy-again-icon" src="images/icons/buy-again.png">
-                      <span class="buy-again-message">Buy it again</span>
-                  </button>
-                  <button class="remove-order-button button-primary">
-                      <img class="buy-again-icon" src="images/icons/delete-icon.png">
-                      <span class="buy-again-message">Remove order</span>
-                  </button>
-                
-                </div>
-
-
-            </div>
-
-            <div class="product-actions">
-                <a href="tracking.html">
-                    <button class="track-package-button button-secondary">
-                        Track package
-                    </button>
-                </a>
-            </div>
+              </div>
           `;
             }
           })
@@ -89,5 +89,15 @@ export function renderPurchaseSummary() {
         </div>`;
 
     ordersGrid.innerHTML += purchaseHTML;
+  });
+
+  let removeOrderButton = document.querySelectorAll(".remove-product-message");
+
+  removeOrderButton.forEach((product) => {
+    product.addEventListener("click", () => {
+      const { productId } = product.dataset;
+
+      console.log(productId);
+    });
   });
 }
