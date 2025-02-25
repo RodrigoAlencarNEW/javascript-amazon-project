@@ -294,7 +294,7 @@
 
 .no-orders-found-text-secondary {
   font-size: 1rem;
-  color: rgb(240,147,5);
+  color: rgb(240, 147, 5);
   cursor: pointer;
   opacity: 0.9;
 }
@@ -302,4 +302,25 @@
 .no-orders-found-text-secondary:hover {
   text-decoration: underline;
   opacity: 1;
+  transition: all 0.2s ease-in-out;
+}
+
+.order-header-middle-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  flex-grow: 1;
+}
+
+.delete-order-button {
+  cursor: pointer;
+  font-size: 2rem;
+  color: rgb(173, 173, 173);
+  font-family: Arial;
+}
+
+.delete-order-button:hover {
+  color: rgb(200, 50, 50);
+  transition: all 0.2s ease-in-out;
 }

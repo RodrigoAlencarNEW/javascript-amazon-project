@@ -69,3 +69,14 @@ export function emptyCartMessage() {
     window.location.href = "amazon.html";
   });
 }
+
+export function deleteOrder(orderId, orderContainer) {
+  ordersList = ordersList.filter((order) => order.id !== orderId);
+
+  if (ordersList.length === 0) {
+    emptyCartMessage();
+  }
+
+  saveLocalStorage();
+  orderContainer.remove();
+}

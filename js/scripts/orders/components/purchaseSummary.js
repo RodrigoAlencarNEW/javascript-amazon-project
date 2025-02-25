@@ -1,5 +1,6 @@
 import { cart } from "../../../../data/cart.js";
 import {
+  deleteOrder,
   deleteProductFromOrder,
   emptyCartMessage,
   ordersList,
@@ -29,10 +30,17 @@ export function renderPurchaseSummary() {
             </div>
           </div>
 
-          <div class="order-header-right-section">
-            <div class="order-header-label">Order ID:</div>
-            <div>${order.id}</div>
+          <div class="order-header-middle-section">
+            <div class="order-header-right-section">
+              <div class="order-header-label">Order ID:</div>
+              <div>${order.id}</div>
+            </div>
+            
+            <span data-order-id="${
+              order.id
+            }" class='delete-order-button'>X</span>
           </div>
+
         </div>
 
         <div class="order-details-grid">
@@ -100,9 +108,11 @@ export function renderPurchaseSummary() {
     emptyCartMessage();
   }
 
-  let removeOrderButton = document.querySelectorAll(".remove-order-button");
+  let removeProductFromOrderButton = document.querySelectorAll(
+    ".remove-order-button"
+  );
 
-  removeOrderButton.forEach((product) => {
+  removeProductFromOrderButton.forEach((product) => {
     product.addEventListener("click", () => {
       const { productId, orderId } = product.dataset;
 
@@ -119,6 +129,19 @@ export function renderPurchaseSummary() {
         productContainer,
         orderContainer
       );
+    });
+  });
+
+  let removeOrderButton = document.querySelectorAll(".delete-order-button");
+
+  removeOrderButton.forEach((order) => {
+    order.addEventListener("click", () => {
+      const { orderId } = order.dataset;
+      const orderContainer = document.querySelector(
+        `.order-container-${orderId}`
+      );
+
+      deleteOrder(orderId, orderContainer);
     });
   });
 }
