@@ -1,5 +1,9 @@
 import { cart } from "../../../../data/cart.js";
-import { ordersList } from "../../../../data/orders.js";
+import {
+  deleteProductFromOrder,
+  emptyCartMessage,
+  ordersList,
+} from "../../../../data/orders.js";
 import { products } from "../../../../data/products.js";
 import { convertCentsToDollars } from "../../../Utils/convertCentsToDollars.js";
 import { convertDate } from "../utils/convertDate.js";
@@ -11,7 +15,7 @@ export function renderPurchaseSummary() {
   let purchaseHTML = "";
 
   ordersList.forEach((order) => {
-    purchaseHTML = `<div class="order-container">
+    purchaseHTML = `<div class="order-container order-container-${order.id}">
 
         <div class="order-header">
           <div class="order-header-left-section">
@@ -41,7 +45,9 @@ export function renderPurchaseSummary() {
 
             if (product) {
               return `
-              <div class="order-item-container"> 
+              <div class="order-item-container container-product-${
+                product.id
+              }"> 
                 <div class="product-image-container">
                   <img src="${product.image}">
                 </div>
@@ -65,11 +71,11 @@ export function renderPurchaseSummary() {
                           <img class="buy-again-icon" src="images/icons/buy-again.png">
                           <span class="buy-again-message">Buy it again</span>
                       </button>
-                      <button class="remove-order-button button-primary">
+                      <button class="remove-order-button button-primary" data-product-id="${
+                        product.id
+                      }" data-order-id="${order.id}">
                           <img class="buy-again-icon" src="images/icons/delete-icon.png">
-                          <span data-product-id="${
-                            product.id
-                          }"class="remove-product-message">Remove product</span>
+                          <span class="remove-product-message">Remove product</span>
                       </button>
                     </div>
                 </div>
@@ -87,17 +93,32 @@ export function renderPurchaseSummary() {
           })
           .join("")}          
         </div>`;
-
     ordersGrid.innerHTML += purchaseHTML;
   });
 
-  let removeOrderButton = document.querySelectorAll(".remove-product-message");
+  if (ordersGrid.children.length === 0) {
+    emptyCartMessage();
+  }
+
+  let removeOrderButton = document.querySelectorAll(".remove-order-button");
 
   removeOrderButton.forEach((product) => {
     product.addEventListener("click", () => {
-      const { productId } = product.dataset;
+      const { productId, orderId } = product.dataset;
 
-      console.log(productId);
+      const productContainer = document.querySelector(
+        `.container-product-${productId}`
+      );
+      const orderContainer = document.querySelector(
+        `.order-container-${orderId}`
+      );
+
+      deleteProductFromOrder(
+        productId,
+        orderId,
+        productContainer,
+        orderContainer
+      );
     });
   });
 }
