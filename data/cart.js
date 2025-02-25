@@ -185,6 +185,12 @@ class Cart {
         : (checkoutItems.innerHTML = `${this.cartItems.length} items`);
     }
   }
+
+  clearCart() {
+    this.cartItems = [];
+    this.saveLocalStorage();
+    this.updateCartItems();
+  }
 }
 
 export const cart = new Cart("cart");
