@@ -1,10 +1,5 @@
 import { cart } from "../../../../data/cart.js";
-import {
-  deleteOrder,
-  deleteProductFromOrder,
-  emptyCartMessage,
-  ordersList,
-} from "../../../../data/orders.js";
+import { orders } from "../../../../data/orders.js";
 import { products } from "../../../../data/products.js";
 import { convertCentsToDollars } from "../../../Utils/convertCentsToDollars.js";
 import { convertDate } from "../utils/convertDate.js";
@@ -15,7 +10,7 @@ export function renderPurchaseSummary() {
   let ordersGrid = document.querySelector(".orders-grid");
   let purchaseHTML = "";
 
-  ordersList.forEach((order) => {
+  orders.ordersList.forEach((order) => {
     purchaseHTML = `<div class="order-container order-container-${order.id}">
 
         <div class="order-header">
@@ -104,9 +99,7 @@ export function renderPurchaseSummary() {
     ordersGrid.innerHTML += purchaseHTML;
   });
 
-  if (ordersGrid.children.length === 0) {
-    emptyCartMessage();
-  }
+  orders.emptyCartMessage();
 
   let removeProductFromOrderButton = document.querySelectorAll(
     ".remove-order-button"
@@ -123,7 +116,7 @@ export function renderPurchaseSummary() {
         `.order-container-${orderId}`
       );
 
-      deleteProductFromOrder(
+      orders.deleteProductFromOrder(
         productId,
         orderId,
         productContainer,
@@ -141,7 +134,7 @@ export function renderPurchaseSummary() {
         `.order-container-${orderId}`
       );
 
-      deleteOrder(orderId, orderContainer);
+      orders.deleteOrder(orderId, orderContainer);
     });
   });
 }

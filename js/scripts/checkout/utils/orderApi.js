@@ -1,5 +1,5 @@
 import { cart } from "../../../../data/cart.js";
-import { addOrder } from "../../../../data/orders.js";
+import { orders } from "../../../../data/orders.js";
 
 export async function orderPost() {
   try {
@@ -18,20 +18,14 @@ export async function orderPost() {
       methodFetch
     );
 
-    if (!response.ok) {
-      throw new Error(`Erro ao criar pedido: ${response.statusText}`);
-    }
+    if (!response.ok) throw new Error(response.statusText);
 
     const order = await response.json();
 
-    addOrder(order);
+    orders.addOrder(order);
     cart.clearCart();
     window.location.href = "orders.html";
   } catch (error) {
-    alert(
-      error.message +
-        " " +
-        "Houve um problema ao realizar o pedido. Tente novamente mais tarde."
-    );
+    console.log(error.message);
   }
 }

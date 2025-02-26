@@ -1,82 +1,96 @@
-export let ordersList = JSON.parse(localStorage.getItem("orders")) || [];
+class Orders {
+  ordersList;
+  localStorageKey;
 
-function saveLocalStorage() {
-  localStorage.setItem("orders", JSON.stringify(ordersList));
-}
+  constructor(localStorageKey) {
+    this.localStorageKey = localStorageKey;
+    this.loadLocalStorage();
+  }
 
-export function addOrder(order) {
-  if (!order) return;
+  loadLocalStorage() {
+    this.ordersList = JSON.parse(localStorage.getItem(this.localStorageKey));
 
-  ordersList.unshift(order);
-  saveLocalStorage();
-}
+    if (!this.ordersList) this.ordersList = [];
+  }
 
-export function deleteProductFromOrder(
-  productId,
-  orderId,
-  productContainer,
-  orderContainer
-) {
-  ordersList = ordersList.map((order) => {
-    if (order.id === orderId && order.products.length > 0) {
-      return {
-        ...order,
-        products: order.products.filter(
-          (product) => product.productId !== productId
-        ),
-      };
+  saveLocalStorage() {
+    localStorage.setItem("orders", JSON.stringify(this.ordersList));
+  }
+
+  addOrder(order) {
+    if (!order) return;
+
+    this.ordersList.push(order);
+    this.saveLocalStorage();
+  }
+
+  deleteProductFromOrder(productId, orderId, productContainer, orderContainer) {
+    this.ordersList = this.ordersList.map((order) => {
+      if (order.id === orderId && order.products.length > 0) {
+        return {
+          ...order,
+          products: order.products.filter(
+            (product) => product.productId !== productId
+          ),
+        };
+      }
+
+      return order;
+    });
+
+    this.ordersList = this.ordersList.filter(
+      (order) => order.products.length > 0
+    );
+
+    this.saveLocalStorage();
+
+    productContainer.remove();
+
+    let orderDetailsContainer = orderContainer.querySelector(
+      ".order-details-grid"
+    );
+
+    if (orderDetailsContainer.children.length === 0) {
+      orderContainer.remove();
+      this.emptyCartMessage();
     }
+  }
 
-    return order;
-  });
+  emptyCartMessage() {
+    let ordersGrid = document.querySelector(".orders-grid");
+    let purchaseHTML = "";
 
-  ordersList = ordersList.filter((order) => order.products.length > 0);
+    if (ordersGrid.children.length === 0) {
+      purchaseHTML = `
+        <div class="order-container-empty">    
+          <div class="no-orders-found">
+            <img src="images/icons/no-orders-icon.png">
+            <p class="no-orders-found-text-primary">No orders at this time</p>
+            <p class="no-orders-found-text-secondary">Click here and place your order</p>   
+          </div>
+        </div>`;
 
-  saveLocalStorage();
+      ordersGrid.innerHTML = purchaseHTML;
 
-  productContainer.remove();
+      let returnToProducts = document.querySelector(
+        ".no-orders-found-text-secondary"
+      );
 
-  let orderDetailsContainer = orderContainer.querySelector(
-    ".order-details-grid"
-  );
+      returnToProducts.addEventListener("click", () => {
+        window.location.href = "amazon.html";
+      });
+    }
+  }
 
-  if (orderDetailsContainer.children.length === 0) {
+  deleteOrder(orderId, orderContainer) {
+    this.ordersList = this.ordersList.filter((order) => order.id !== orderId);
+    this.saveLocalStorage();
     orderContainer.remove();
-    emptyCartMessage();
+
+    if (this.ordersList.length === 0) {
+      this.emptyCartMessage();
+    }
   }
 }
 
-export function emptyCartMessage() {
-  let ordersGrid = document.querySelector(".orders-grid");
-  let purchaseHTML = "";
-
-  purchaseHTML = `
-    <div class="order-container-empty">    
-      <div class="no-orders-found">
-        <img src="images/icons/no-orders-icon.png">
-        <p class="no-orders-found-text-primary">No orders at this time</p>
-        <p class="no-orders-found-text-secondary">Click here and place your order</p>   
-      </div>
-    </div>`;
-
-  ordersGrid.innerHTML = purchaseHTML;
-
-  let returnToProducts = document.querySelector(
-    ".no-orders-found-text-secondary"
-  );
-
-  returnToProducts.addEventListener("click", () => {
-    window.location.href = "amazon.html";
-  });
-}
-
-export function deleteOrder(orderId, orderContainer) {
-  ordersList = ordersList.filter((order) => order.id !== orderId);
-
-  if (ordersList.length === 0) {
-    emptyCartMessage();
-  }
-
-  saveLocalStorage();
-  orderContainer.remove();
-}
+export const orders = new Orders("orders");
