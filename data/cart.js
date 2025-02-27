@@ -86,6 +86,7 @@ class Cart {
     this.saveLocalStorage();
     updatePayment();
     this.updateCartItems();
+    this.emptyCartMessage();
   }
 
   updateItem(productId, button) {
@@ -190,6 +191,32 @@ class Cart {
     this.cartItems = [];
     this.saveLocalStorage();
     this.updateCartItems();
+  }
+
+  emptyCartMessage() {
+    let ordersSummary = document.querySelector(".order-summary");
+    let itemsHTML = "";
+
+    if (ordersSummary.children.length === 0) {
+      itemsHTML = `
+        <div class="order-container-empty">    
+          <div class="no-cart-items-found">
+            <img src="images/icons/no-orders-icon.png">
+            <p class="order-empty-text-primary">No products in cart</p>
+            <p class="order-empty-text-secondary">Click here and add products</p>   
+          </div>
+        </div>`;
+
+      ordersSummary.innerHTML = itemsHTML;
+
+      let returnToProducts = document.querySelector(
+        ".order-empty-text-secondary"
+      );
+
+      returnToProducts.addEventListener("click", () => {
+        window.location.href = "amazon.html";
+      });
+    }
   }
 }
 

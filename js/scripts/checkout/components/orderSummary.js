@@ -66,6 +66,8 @@ export function renderOrderSummary() {
     containerItens.innerHTML = itemsHTML;
   });
 
+  cart.emptyCartMessage();
+
   let deleteLink = document.querySelectorAll(".delete-quantity-link");
 
   deleteLink.forEach((button) => {
