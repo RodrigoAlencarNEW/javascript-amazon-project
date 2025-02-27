@@ -2,7 +2,7 @@ import { cart } from "../../../../data/cart.js";
 import { orders } from "../../../../data/orders.js";
 import { products } from "../../../../data/products.js";
 import { convertCentsToDollars } from "../../../Utils/convertCentsToDollars.js";
-import { convertDate } from "../utils/convertDate.js";
+import { convertDate } from "../../../Utils/convertDate.js";
 
 cart.updateCartItems();
 
@@ -84,7 +84,9 @@ export function renderPurchaseSummary() {
                 </div>
 
                 <div class="product-actions">
-                    <a href="tracking.html">
+                    <a href="tracking.html?orderId=${order.id}&productId=${
+                product.id
+              }">
                         <button class="track-package-button button-secondary">
                             Track package
                         </button>

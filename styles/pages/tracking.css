@@ -21,11 +21,44 @@
 .delivery-date {
   font-size: 25px;
   font-weight: 700;
-  margin-bottom: 10px;
+  margin-bottom: 1rem;
+}
+
+.product-order-container {
+  display: flex;
+
+  align-items: center;
+
+  gap: 2rem;
+}
+
+.all-orders-title {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 1rem;
 }
 
 .product-info {
   margin-bottom: 3px;
+  display: flex;
+}
+
+.products-container-details {
+  flex-direction: column;
+
+  gap: 0.3rem;
+}
+
+.product-info-label {
+  font-size: 0.8rem;
+  color: rgb(101, 101, 101);
+}
+
+.product-info-content {
+  font-size: 1.2rem;
+  font-weight: 500;
 }
 
 .product-image {
