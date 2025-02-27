@@ -1,16 +1,25 @@
-import { cart } from "../../../../data/cart.js";
 import { products } from "../../../../data/products.js";
-import { searchFunction } from "../Utils/searchFunction.js";
+let timeoutTimer;
 
-cart.updateCartItems();
+export function searchFunction(event) {
+  clearTimeout(timeoutTimer);
 
-export function renderProductList() {
-  let productGrid = document.querySelector(".products-grid");
+  timeoutTimer = setTimeout(() => {
+    let searchValue = event.target.value.toLowerCase();
 
-  let productsHTML = "";
+    let filteredProducts = products.filter((product) =>
+      product.name.toLowerCase().includes(searchValue)
+    );
 
-  products.forEach((product) => {
-    productsHTML += `<div class="product-container">
+    let productGrid = document.querySelector(".products-grid");
+
+    let productsHTML = "";
+
+    if (filteredProducts) {
+      productGrid.style = "";
+
+      filteredProducts.forEach((product) => {
+        productsHTML += `<div class="product-container">
         <div class="product-image-container">
           <img class="product-image" src="${product.image}">
         </div>
@@ -59,21 +68,36 @@ export function renderProductList() {
         </button>
       </div>`;
 
-    productGrid.innerHTML = productsHTML;
-  });
+        productGrid.innerHTML = productsHTML;
+      });
+    }
 
-  let addToCartButton = document.querySelectorAll(".add-to-cart-button");
+    if (!filteredProducts.length) {
+      productGrid.style = "";
+      productGrid.style = "width: 100%";
+      productGrid.style.display = "grid";
+      productGrid.style.gridTemplateColumns = "1fr";
+      productGrid.style.width = "100%";
 
-  addToCartButton.forEach((button) => {
-    button.addEventListener("click", () => {
-      const { productId } = button.dataset;
-      cart.addCart(productId, button);
-    });
-  });
+      productsHTML += `<div class='no-results-container'>
+          
+              <div class='no-results-details'>               
+                <div class='no-results-icon'>
+                  <img src='../../../images/icons/no-results.png'>
+                </div>
 
-  let searchBar = document.querySelector(".search-bar");
+                <div class='no-results-title'>
+                    No results found
+                </div>    
 
-  searchBar.addEventListener("input", (event) => {
-    searchFunction(event);
-  });
+                <div class='no-results-subtitle'>
+                    Try searching for something else
+                </div>
+              </div>
+
+          </div>`;
+
+      productGrid.innerHTML = productsHTML;
+    }
+  }, 500);
 }
