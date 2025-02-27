@@ -25,7 +25,7 @@ export function renderTrackingDetails() {
         </a>
 
         <div class="delivery-date">
-          ${convertDate(order.orderTime)}
+          ${convertDate(orderDetails.estimatedDeliveryTime)}
         </div>
 
         <div class="product-order-container">

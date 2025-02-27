@@ -189,13 +189,13 @@
 }
 
 .remove-order-button {
-  background-color: rgb(200, 50, 50);
+  background-color: rgb(255 93 93);
   border: none;
 }
 
 .remove-order-button:hover {
-  background-color: rgb(180, 30, 30);
-  border: rgb(200, 50, 50);
+  background-color: rgb(212, 72, 72);
+  border: rgb(255 93 93);
 }
 
 .buy-again-icon {
