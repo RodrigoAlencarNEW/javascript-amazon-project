@@ -143,4 +143,11 @@ export function renderPurchaseSummary() {
   });
 
   let buyAgainButton = document.querySelectorAll(".buy-again-button");
+
+  buyAgainButton.forEach((product) => {
+    product.addEventListener("click", () => {
+      const { productId } = product.dataset;
+      cart.addCart(productId);
+    });
+  });
 }
