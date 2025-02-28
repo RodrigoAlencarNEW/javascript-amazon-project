@@ -70,7 +70,9 @@ export function renderPurchaseSummary() {
                     </div>
                     
                     <div class='buttons-itens-order-container'> 
-                      <button class="buy-again-button button-primary">
+                      <button class="buy-again-button button-primary" data-product-id="${
+                        product.id
+                      }">
                           <img class="buy-again-icon" src="images/icons/buy-again.png">
                           <span class="buy-again-message">Buy it again</span>
                       </button>
@@ -139,4 +141,6 @@ export function renderPurchaseSummary() {
       orders.deleteOrder(orderId, orderContainer);
     });
   });
+
+  let buyAgainButton = document.querySelectorAll(".buy-again-button");
 }
